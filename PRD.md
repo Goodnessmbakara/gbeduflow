@@ -1,151 +1,104 @@
-# Product Requirements Document (PRD): GbeduFlow
+GbeduFlow – Product Requirements Document (MVP Edition)
 
-**Hackathon Edition – AI & Digital Music Economy (October 2025)**
+Hackathon Edition (October 2025)
+Prepared by: Esabu Blessing
+North Star Metric: Launch the Afrobeats Economic Heat Index (AEHI) for 10 artists
 
-| Field | Details |
-|-------|---------|
-| **Product Name** | GbeduFlow |
-| **Version** | 1.1 (Hackathon + Monetization Update) |
-| **Author** | Goodness Mbakara |
-| **Date** | October 27, 2025 |
-| **Focus Tracks** | Economic Impact Modeling & Global Reach and Export Insights |
-| **North Star Metric** | Launch the Afrobeats Economic Heat Index (AEHI) |
 
-## 1. Overview and Problem Statement
+1. Overview
 
-### 1.1 Purpose
-GbeduFlow is an AI-driven platform that quantifies the grassroots economic energy and export potential of Nigerian music artists. It combines student-generated hype data with lightweight machine learning to produce the Afrobeats Economic Heat Index (AEHI) — a new measure for creative economy insights.
+GbeduFlow is an AI-powered web app that measures the grassroots hype and export readiness of Nigerian music artists.
+It merges campus-level fan data (“vibes”) and audience text clustering to create one metric — the Afrobeats Economic Heat Index (AEHI).
 
-### 1.2 The Problem
-Despite Afrobeats' global growth, the underlying data that drives artist discovery, tour decisions, and policy planning remains fragmented or missing entirely.
+Core idea:
 
-- **Grassroots energy is invisible** — No structured way to measure which artist is buzzing on campuses or in cities.
-- **Export potential is unquantified** — Policymakers and labels lack data on emerging audience clusters abroad.
-- **Economic inefficiency** — Sponsorships and grants are misallocated due to lack of evidence-based insight.
+Turn student hype + online signals into data that helps artists, promoters, and policymakers see which sounds are blowing up.
 
-### 1.3 The Solution
-GbeduFlow introduces two novel data layers:
+2. Problem & Solution
+Problem
 
-- **Local Demand Score (LDS)**: Quantifies organic, on-campus popularity using student ratings and participation metrics.
-- **Audience Export Index (AEI)**: Uses NLP to cluster public audience data and identify global reach signals.
+No data captures who’s trending locally or where Afrobeats is expanding globally.
 
-Both metrics combine into the flagship **Afrobeats Economic Heat Index (AEHI)** — a single score representing grassroots heat + export readiness.
+Sponsors and promoters make decisions without real insights.
 
-New additions now include monetization features that align with real artist and promoter needs while keeping the AEHI metric independent and trusted.
+Solution
 
-## 2. Goals, Metrics, and Target Users
+Local Demand Score (LDS): Based on student hype data (ratings + submissions).
 
-### 2.1 Hackathon Success Metrics
+Audience Export Index (AEI): Based on audience clustering from bios/comments.
 
-| Goal Area | Key Result | Metric |
-|-----------|------------|--------|
-| **Core Innovation** | Generate AEHI for at least 10 artists. | AEHI computation success rate. |
-| **Monetization Feasibility** | Demonstrate 1 working "Boosted Challenge" or featured content flow. | ≥1 active paid or mock-promoted listing in demo. |
-| **User Engagement** | Validate that students can submit and interact easily. | ≥75% completion rate in demo tests. |
-| **Policy/Analyst Use** | Showcase export audience clusters. | ≥3 distinct global audience clusters generated. |
+Combine both → Afrobeats Economic Heat Index (AEHI) (0–100 scale).
 
-### 2.2 User Personas
+3. MVP Goals
+Goal	Metric	Target
+Compute AEHI for real demo artists	Successful AEHI output	≥10 artists
+Student engagement	% of completed “Vibe Check” forms	≥70%
+Monetization demo	Working “Boosted Challenge”	1
+Visual output	AEHI dashboard working	✅
+4. Key Features (Build-Now Scope)
+ID	Feature	Description	Stack Responsibility
+1. Artist Onboarding	Artist registers (name, genre, video link)	Frontend + Backend	
+2. Student Vibe Check	Student rates artist (1–5) and tags university	Frontend + Backend	
+3. AEHI Engine	Combine LDS + AEI into one score (mock or simple formula)	Backend + ML	
+4. Dashboard (Leaderboard)	Display top artists and scores	Frontend	
+5. Boosted Challenge (Demo)	Mark one artist as boosted for visibility	Frontend + Backend	
+5. Technical Stack
+Layer	Technology	Reason
+Frontend	React (Vite) + Tailwind	Fast, mobile-friendly UI
+Backend	Express.js (TypeScript)	Simple and hackathon-ready
+Database	SQLite / PostgreSQL	Light, quick setup
+Auth	Firebase Auth	Easy Google login
+ML / Scoring	TensorFlow.js (for AEI)	Lightweight JS ML
+Hosting	Vercel + Render	Free-tier deployment
+6. Task Breakdown
+Frontend
 
-| Persona | Goal | Key Features Needed |
-|---------|------|-------------------|
-| **Student / Fan ("Padi")** | Discover and hype local artists; join fun challenges. | Simple "Vibe Check" + campus tagging. |
-| **Artist / Label** | Increase exposure and measure performance impact. | Boosted Challenges, AEHI insights, Deep Dive Reports. |
-| **Promoter / DJ** | Find the next breakout star per city or campus. | AEHI leaderboard + LDS heatmap. |
-| **Policy Analyst** | Track local creative economy and export signals. | Audience cluster visualizations. |
+ Create landing & onboarding screens
 
-## 3. MVP Features
+ Implement Google login
 
-The MVP focuses on three core systems: **Data Input → Analysis → Insights + Monetization Layer**
+ Build artist form + “Vibe Check” page
 
-### 3.1 Artist & Student Input Flow
+ Create simple dashboard for AEHI leaderboard
 
-| ID | Feature | Description | Implementation Notes (Speed Focus) |
-|----|---------|-------------|-----------------------------------|
-| **F.1.1** | Artist Onboarding | Artists register with name + 1 YouTube video + 1 TikTok/Instagram profile link. | Use a simple POST /api/artists route with Express.js middleware for validation; store minimal metadata in SQLite/PostgreSQL. |
-| **F.1.2** | Student Authentication | Students log in using Google/email and select university from a dropdown. | Use Custom Auth/google 0auth. Preload university list from JSON or free api. |
-| **F.1.3** | Vibe Check Submission | Students rate artist (1–5) and optionally link a hype video. | Store submission in Submissions table; auto-tag with student's university and details. |
+ Add “Boosted” tag indicator
 
-### 3.2 Machine Learning & Data Engine
+Backend
 
-| ID | Feature | Description | Implementation Notes |
-|----|---------|-------------|-------------------|
-| **F.2.1** | Local Demand Score (LDS) | Weighted score combining ratings, hype volume, and campus spread. | Implement with a schedule recalculation every few hours. |
-| **F.2.2** | Audience Export Index (AEI) | NLP clustering of artist audience text data (bios, comments). | Use TensorFlow.js with Universal Sentence Encoder for embeddings and Natural.js clustering; output top 3 clusters. |
-| **F.2.3** | AEHI Computation | Combine LDS + AEI into one interpretable index. | Store AEHI as float (0–100). Recompute on data change triggers. |
+ Setup Express server and DB
 
-### 3.3 Insights Dashboard
+ Endpoints: /artists, /submissions, /aehi
 
-| ID | Feature | Description | Implementation Notes |
-|----|---------|-------------|-------------------|
-| **F.3.1** | AEHI Ranking Dashboard | Displays top 10 artists by AEHI. | Build using Streamlit (fast) or React + Chart.js. |
-| **F.3.2** | LDS Heatmap | Shows which campuses drive local demand. | Use color-coded list or Mapbox (optional mock). |
-| **F.3.3** | AEI Audience Clusters | Visual summary of global audience types. | Simple Innovative card components listing 3 clusters + keywords. |
+ Compute LDS + AEI mock values
 
-## 4. Monetization Features
+ Merge into AEHI score (0–100)
 
-These modules introduce revenue without compromising AEHI integrity.
+ Return leaderboard data
 
-| ID | Feature | User | Description | Implementation Notes |
-|----|---------|------|-------------|-------------------|
-| **M.1** | Boosted Challenge (Native Ad) | Artist/Label | Paid campaign that promotes a listening or hype challenge within a selected campus/city. Boosted visibility increases engagement organically, which may affect LDS. | Create boosted_campaigns table; filter submissions to show boosted artists first on campus feeds. |
-| **M.2** | Featured Placement (Non-AEHI) | Promoter/Brand | Sell banner or spotlight slots for DJs, promoters, or campus events. | Add "featured" field in artist/promo schema; toggle placement in dashboard UI. |
-| **M.3** | Deep Dive Report (B2C Artist Service) | Artist | Premium report showing AEHI history, LDS by city, and competitor comparison. | Generate from AEHI history table and export as downloadable PDF/CSV via Express.js endpoint. |
+ML (optional but valuable)
 
-## 5. Non-Functional Requirements
+ Use mock NLP clustering on audience text (3 keywords per artist)
 
-| ID | Requirement | Focus | Description |
-|----|-------------|-------|-------------|
-| **NF-R.1** | Speed | Performance | Prioritize minimal backend logic. Use prebuilt auth, simple DB, and Streamlit for dashboards. |
-| **NF-R.2** | Scalability | Architecture | Use Docker + lightweight REST API; keep ML components modular for cloud migration later. |
-| **NF-R.3** | Privacy | Security | Store no PII; only anonymized campus data. |
-| **NF-R.4** | Mobile-first UX | Usability | Frontend optimized for phones; avoid heavy libraries. |
+ Return as part of AEHI insights
 
-## 6. Technical Stack (Speed-Optimized)
+7. Hackathon Implementation Plan (5-Day Sprint)
+Day	Focus	Deliverables
+Day 1	Setup backend, DB, auth	Working routes & test data
+Day 2	Build artist & student forms	Working input flow
+Day 3	Implement AEHI logic	Compute + save scores
+Day 4	Create leaderboard UI	Dashboard live
+Day 5	Add Boosted Challenge demo + deploy	Final pitch-ready MVP
+8. Out of Scope (Future Versions)
 
-| Layer | Tech | Rationale |
-|-------|------|-----------|
-| **Frontend/UI** | React + Vite (or Streamlit) | Vite for fast development; Streamlit for quickest MVP dashboard. |
-| **Backend/API** | Express.js (TypeScript) | Lightweight, async-ready, integrates with ML easily via Node.js ecosystem. |
-| **Auth & DB** | Firebase Auth + SQLite/PostgreSQL | Minimal setup, scalable later. |
-| **ML Layer** | TensorFlow.js + Natural + ML-Matrix | Fast to integrate with Node.js and explainable results. |
-| **Hosting** | Render / Railway / Vercel | 1-click deployments ideal for hackathons. |
-| **Containerization** | Docker Compose | Ensures smooth handover and future scalability. |
+Real YouTube/TikTok data scraping
 
-## 7. Scope Definition
+Payment gateway integration
 
-### In Scope (Must Have)
-- Artist onboarding & student submissions.
-- AEHI computation & dashboard.
-- One active Boosted Challenge demo.
-- Simple admin panel for content moderation.
+Automated fraud or duplicate detection
 
-### Out of Scope (Future/Deferred)
-- Real-time streaming integrations (YouTube/TikTok APIs).
-- Full social platform features (messaging, profiles).
-- Payment gateway integration (mocked for MVP).
-- Automated fraud detection or score audits.
+9. Summary
 
-## 8. Quick Implementation Plan
-
-| Phase | Focus | Tools / Notes |
-|-------|-------|---------------|
-| **Day 1** | Setup backend, models, auth | Express.js + Firebase; create /artists, /submissions, /aehi. |
-| **Day 2** | Build dashboard (Streamlit or React) | Show AEHI leaderboard, LDS heatmap (mock), clusters. |
-| **Day 3** | Add Boosted Challenge + Featured slots | Static list of boosted campaigns with banner toggles. |
-| **Day 4** | Add AEHI computation script + Deep Dive generator | Node.js ML libraries + Express.js endpoint for CSV export. |
-| **Day 5** | Final polish and deploy | Containerize and deploy to Vercel/Render. |
-
-## 9. Summary
-
-GbeduFlow is the data nerve center of the Nigerian music grassroots — blending AI insight, cultural relevance, and revenue viability.
-
-It empowers:
-- **Students** to become active taste-makers,
-- **Artists** to understand and grow their local and global traction, and
-- **Promoters/Policymakers** to finally quantify Afrobeats' true economic footprint.
-
-And now, with Boosted Challenges, Featured Placements, and Deep Dive Reports, GbeduFlow can sustain itself financially while scaling impact.
-
----
+GbeduFlow is a fast, functional MVP proving that Afrobeats’ grassroots energy can be quantified.
+It gives artists visibility, students engagement, and promoters insight — all powered by AI, built for speed, and hackathon-ready.
 
 *This PRD serves as the single source of truth for the GbeduFlow product development during the hackathon and beyond.*
